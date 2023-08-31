@@ -5,6 +5,7 @@ export const CHANGE_OPERATION = "CHANGE_OPERATION";
 export const APPLY_NUMBER_TO_MEMORY = "APPLY_NUMBER_TO_MEMORY";
 export const GET_NUMBER_FROM_MEMORY = "GET_NUMBER_FROM_MEMORY";
 export const CLEAR_MEMORY = "CLEAR_MEMORY";
+export const ENTER_VALUE = "ENTER_VALUE";
 
 export const addOne = () => {
     return({type:ADD_ONE});
@@ -32,5 +33,9 @@ export const getNumberFromMemory = (number) => {
 
 export const clearMemory = () => {
     return{type : CLEAR_MEMORY}; 
+}
+
+export const enterValue = () => {
+    return{type : ENTER_VALUE}
 }
 

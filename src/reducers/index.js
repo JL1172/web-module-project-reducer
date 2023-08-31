@@ -1,15 +1,13 @@
-import { ADD_ONE, APPLY_NUMBER, CHANGE_OPERATION, CLEAR_DISPLAY, GET_NUMBER_FROM_MEMORY, CLEAR_MEMORY, APPLY_NUMBER_TO_MEMORY} from './../actions';
+import { ADD_ONE, APPLY_NUMBER, CHANGE_OPERATION, CLEAR_DISPLAY, GET_NUMBER_FROM_MEMORY, CLEAR_MEMORY, APPLY_NUMBER_TO_MEMORY, ENTER_VALUE} from './../actions';
 
 export const initialState = {
-    total: 0,
-    operation: "+",
-    memory: 0
+    total: [],
+    operation: "",
+    memory: 0,
+    oldValue : [],
 }
 
 const calculateResult = (num1, num2, operation) => {
-    console.log(num1);
-    console.log(num2);
-
     switch(operation) {
         case("+"):
             return num1 + num2;
@@ -29,10 +27,22 @@ const reducer = (state, action) => {
             });
 
         case(APPLY_NUMBER):
+        if (!state.operation) {
+            state.oldValue = [...state.oldValue,action.payload];
+            let joined = state.oldValue.join("").replace(/,/g,"");
+        
             return({ 
                 ...state, 
-                total: calculateResult(state.total, action.payload, state.operation)
+                oldValue : joined,
+        })} else { 
+            state.total = [...state.total,action.payload];
+            let joined = state.total.join("").replace(/,/g,"");
+           
+            return({ 
+                ...state, 
+                total: joined,
             });
+        }
         case(CHANGE_OPERATION):
             return ({
                 ...state,
@@ -41,8 +51,9 @@ const reducer = (state, action) => {
         case(CLEAR_DISPLAY) : 
             return({
                 ...state,
-                total : 0,
-                operation : "+",
+                total : [],
+                oldValue : [],
+                operation : "",
             });
         case(APPLY_NUMBER_TO_MEMORY) :
             return({
@@ -57,6 +68,11 @@ const reducer = (state, action) => {
         case(CLEAR_MEMORY) :
             return({...state,
                 memory : 0
+            })
+        case(ENTER_VALUE) : 
+            return({
+                ...state,
+                total : calculateResult(state.total,state.oldValue, state.operation),
             })
     }
 }

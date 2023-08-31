@@ -1,7 +1,7 @@
 import React, {useReducer} from 'react';
 import reducer, {initialState} from '../reducers';
 import './App.css';
-import { addOne,applyNumber,changeOperation,clearDisplay,applyNumberToMemory,getNumberFromMemory, clearMemory} from '../actions';
+import { addOne,applyNumber,changeOperation,clearDisplay,applyNumberToMemory,getNumberFromMemory, clearMemory, enterValue} from '../actions';
 
 
 import TotalDisplay from './TotalDisplay';
@@ -19,7 +19,7 @@ function App() {
         <div className="col-md-12 d-flex justify-content-center">
           <form name="Cal">
          
-            <TotalDisplay value={state.total}/>
+            <TotalDisplay value={state.total.length === 0 ? state.oldValue : state.total}/>
             <div className="row details">
               <span id="operation"><b>Operation:</b>{state.operation}</span>
               <span id="memory"><b>Memory:</b>{state.memory}</span>
@@ -57,6 +57,7 @@ function App() {
 
             <div className="row ce_button">
               <CalcButton onClick = {()=> dispatch(clearDisplay())} value={"CE"}/>
+              <CalcButton onClick = {()=> dispatch(enterValue())} value={"="}/>
             </div>
 
           </form>
